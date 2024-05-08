@@ -39,7 +39,7 @@ services:
     ports:
       - '3306:3306'
     container_name: mysql
-    restart: unless-stopped
+    restart: no
     environment:
       MYSQL_DATABASE: laravel_db
       MYSQL_USER: laravel_user

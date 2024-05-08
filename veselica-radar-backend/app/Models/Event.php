@@ -12,18 +12,18 @@ class Event extends Model
     protected $fillable = [
         'name',
         'location',
-        'isEntranceFee',
-        'entranceFee',
-        'eventDate',
-        'startingHour',
-        'endingHour',
+        'is_entrance_fee',
+        'entrance_fee',
+        'event_date',
+        'starting_hour',
+        'ending_hour',
     ];
 
     protected $casts = [
-        'isEntranceFee' => 'boolean',
-        'entranceFee' => 'float',
-        'eventDate' => 'date',
-        'startingHour' => 'time',
-        'endingHour' => 'time',
+        'is_entrance_fee' => 'boolean',
+        'entrance_fee' => 'float',
+        'event_date' => 'date',
+        'starting_hour' => 'datetime:H:i', // Cast to time format without seconds
+        'ending_hour' => 'datetime:H:i',   // Cast to time format without seconds
     ];
 }
