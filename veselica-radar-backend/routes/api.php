@@ -29,3 +29,6 @@ Route::post('/sanctum/token', function (Request $request) {
 
 Route::get('/events', [EventsController::class, 'index']);
 Route::get('/events/{id}', [EventsController::class, 'getById']);
+Route::post('/events', [EventsController::class, 'store']);
+Route::put('/events/{id}', [EventsController::class, 'update']);
+Route::delete('/events/{id}', [EventsController::class, 'destroy']);
