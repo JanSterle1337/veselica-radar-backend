@@ -26,7 +26,7 @@ class StatusesTableSeeder extends Seeder
         $eventIds = DB::table('events')->pluck('id')->all();
 
         // Loop to create multiple status records
-        $numberOfStatuses = 10; // You can adjust this number as needed
+        $numberOfStatuses = 30; // You can adjust this number as needed
 
         for ($i = 0; $i < $numberOfStatuses; $i++) {
             // Get random user and event IDs
@@ -44,6 +44,8 @@ class StatusesTableSeeder extends Seeder
                     'user_id' => $userId,
                     'event_id' => $eventId,
                     'status' => $status,
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ]);
 
                 // Update existingStatuses array to prevent duplicates
