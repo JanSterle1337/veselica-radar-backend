@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UnauthorizedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventsController;
@@ -26,9 +27,15 @@ Route::post('/sanctum/token', function (Request $request) {
    return $user->createToken($request->input('device_name'))->plainTextToken;
 });
 
+Route::middleware('auth:sanctum')->group(function() {
+   Route::get('/events', [EventsController::class, 'index']);
+});
 
-Route::get('/events', [EventsController::class, 'index']);
+//Route::get('/events', [EventsController::class, 'index']);
 Route::get('/events/{id}', [EventsController::class, 'getById']);
 Route::post('/events', [EventsController::class, 'store']);
 Route::put('/events/{id}', [EventsController::class, 'update']);
 Route::delete('/events/{id}', [EventsController::class, 'destroy']);
+
+
+Route::get('/unauthorized', [UnauthorizedController::class, 'unauthorized'])->name('unauthorized');
