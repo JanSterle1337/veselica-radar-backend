@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use http\Client\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Prompts\Concerns\Events;
 
 class EventsController extends Controller
@@ -13,6 +14,7 @@ class EventsController extends Controller
         $events = Event::all();
         return response()->json($events);
     }
+
 
     public function getById($id)
     {
@@ -27,7 +29,7 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        /*$validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'location' => 'required|string',
             'is_entrance_fee' => 'required|boolean',
@@ -36,6 +38,12 @@ class EventsController extends Controller
             'starting_hour' => 'required|date_format:H:i:s',
             'ending_hour' => 'required|date_format:H:i:s',
         ]);
+
+
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Invalid data provided'], 404);
+        }*/
 
         $event = Event::create($request->all());
 
@@ -50,7 +58,7 @@ class EventsController extends Controller
             return response()->json(['message' => 'Event not found'], 404);
         }
 
-        $request->validate([
+        /*$request->validate([
             'name' => 'string',
             'location' => 'string',
             'is_entrance_fee' => 'boolean',
@@ -58,9 +66,31 @@ class EventsController extends Controller
             'event_date' => 'date',
             'starting_hour' => 'date_format:H:i:s',
             'ending_hour' => 'date_format:H:i:s',
-        ]);
+        ]);*/
 
-        $event->update($request->all());
+        if ($request->has('name')) {
+            $event->name = $request->name;
+        }
+        if ($request->has('location')) {
+            $event->location = $request->location;
+        }
+        if ($request->has('is_entrance_fee')) {
+            $event->is_entrance_fee = $request->is_entrance_fee;
+        }
+        if ($request->has('event_date')) {
+            $event->event_date = $request->event_date;
+        }
+        if ($request->has('starting_hour')) {
+            $event->starting_hour = $request->starting_hour;
+        }
+        if ($request->has('ending_hour')) {
+            $event->ending_hour = $request->ending_hour;
+        }
+        if ($request->has('entrance_fee')) {
+            $event->entrance_fee = $request->entrance_fee;
+        }
+
+        $event->save();
 
         return response()->json($event, 200);
     }
