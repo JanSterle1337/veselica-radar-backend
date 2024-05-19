@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Laravel\Prompts\Concerns\Events;
 
 class EventsController extends Controller
@@ -29,23 +31,35 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
-        /*$validator = Validator::make($request->all(), [
+        $rules = [
             'name' => 'required|string',
             'location' => 'required|string',
             'is_entrance_fee' => 'required|boolean',
-            'entrance_fee' => 'required|numeric',
+            'entrance_fee' => 'required_if:is_entrance_fee,1|numeric',
             'event_date' => 'required|date',
-            'starting_hour' => 'required|date_format:H:i:s',
-            'ending_hour' => 'required|date_format:H:i:s',
-        ]);
+            'starting_hour' => 'required|date_format:H:i',
+            'ending_hour' => 'required|date_format:H:i|after:starting_hour',
+            'is_confirmed' => 'required|boolean',
+            'user_id' => 'required|exists:users,id'
+        ];
 
+        try {
+            $validatedData = $request->validate($rules);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation error',
+                'errors' => $e->errors(),
+            ], 422);
+        }
 
+        // Debug: Log validated data
+        Log::info('Validated Data before create:', $validatedData);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid data provided'], 404);
-        }*/
+        // Create the event
+        $event = Event::create($validatedData);
 
-        $event = Event::create($request->all());
+        // Debug: Log created event
+        Log::info('Created Event:', $event->toArray());
 
         return response()->json($event, 201);
     }
