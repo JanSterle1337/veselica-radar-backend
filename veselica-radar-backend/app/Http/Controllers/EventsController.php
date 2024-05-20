@@ -37,8 +37,14 @@ class EventsController extends Controller
             'ending_hour' => \Carbon\Carbon::parse($request->input('ending_hour'))->format('H:i'),
         ]);
 
+        $request->merge([
+            'latitude' => fake()->latitude(45.674424, 46.3694),
+            'longitude' => fake()->longitude(13.9167, 15.56735),
+        ]);
+
         Log::info($request->all());
 
+        // Define validation rules
         $rules = [
             'name' => 'required|string',
             'location' => 'required|string',
@@ -48,10 +54,13 @@ class EventsController extends Controller
             'starting_hour' => 'required|date_format:H:i',
             'ending_hour' => 'required|date_format:H:i|after:starting_hour',
             'is_confirmed' => 'required|boolean',
-            'user_id' => 'required|exists:users,id'
+            'user_id' => 'required|exists:users,id',
+            'latitude' => 'required|numeric|between:45.674424,46.3694',
+            'longitude' => 'required|numeric|between:13.9167,15.56735',
         ];
 
         try {
+
             $validatedData = $request->validate($rules);
         } catch (ValidationException $e) {
             return response()->json([

@@ -19,19 +19,15 @@ class EventFactory extends Factory
 
     public function definition(): array
     {
-
         $userIds = User::pluck('id')->toArray();
-
         $userId = fake()->randomElement($userIds);
 
         $location = fake()->streetName();
         $isEntranceFee = fake()->boolean();
         $isConfirmed = fake()->boolean();
-        $entranceFee = 0;
-        if ($isEntranceFee) {
-            $entranceFee = fake()->randomFloat([1],[20]);
-        }
 
+        // Ensure entranceFee is only generated if isEntranceFee is true
+        $entranceFee = $isEntranceFee ? fake()->randomFloat(2, 0, 50) : 0.0;
 
         $startingHour = fake()->time('H:i');
         $endingHour = fake()->time('H:i');
@@ -42,9 +38,10 @@ class EventFactory extends Factory
         return [
             'name' => $location . " veselica",
             'location' => $location,
+            'is_entrance_fee' => $isEntranceFee,
             'entrance_fee' => $entranceFee,
             'is_confirmed' => $isConfirmed,
-            'event_date' => fake()>date('Y-m-d'),
+            'event_date' => fake()->date('Y-m-d'),
             'starting_hour' => $startingHour,
             'ending_hour' => $endingHour,
             'user_id' => $userId,
