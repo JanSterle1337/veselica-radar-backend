@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StatusController extends Controller
 {
     public function index()
     {
         $statuses = Status::all();
+
+        Log::info($statuses);
         return response()->json($statuses);
     }
 

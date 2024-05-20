@@ -15,15 +15,11 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 
 
-Route::middleware(['waiterRole'])->group(function () {
-    Route::get('/events', [EventsController::class, 'index']);
-});
-
 Route::middleware(['adminRole'])->group(function () {
     Route::post('/events/{id}', [EventsController::class, 'getById']);
 });
 
-
+Route::get('/events', [EventsController::class, 'index']);
 Route::post('/events', [EventsController::class, 'store']);
 Route::put('/events/{id}', [EventsController::class, 'update']);
 Route::delete('/events/{id}', [\App\Http\Controllers\EventsController::class, 'destroy']);
@@ -47,7 +43,7 @@ Route::get('/drink', [\App\Http\Controllers\DrinkController::class, 'index']);
 Route::get('/drink/{id}', [\App\Http\Controllers\DrinkController::class, 'getById']);
 Route::post('/drink', [\App\Http\Controllers\DrinkController::class, 'store']);
 Route::put('/drink/{id}', [\App\Http\Controllers\DrinkController::class, 'update']);
-Route::delete('/drink/{id}', [\App\Http\Controllers\DrinkController::class, 'destroy']);
+Route::delete('/drnk/{id}', [\App\Http\Controllers\DrinkController::class, 'destroy']);
 
 
 //STATUS

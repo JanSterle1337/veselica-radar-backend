@@ -14,27 +14,73 @@ class Status extends Model
      *
      * @var array
      */
-
     protected $fillable = [
         'user_id',
         'status',
         'event_id',
     ];
 
-    protected $primaryKey = ['user_id', 'event_id'];
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
-     * The relationships that should be touched on save.
+     * The primary key associated with the table.
      *
      * @var array
      */
-    protected $touches = ['user', 'event'];
+    protected $primaryKey = null;
 
-    public function user() {
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'array';
+
+    /**
+     * Get the user that owns the status.
+     */
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function event() {
+    /**
+     * Get the event that owns the status.
+     */
+    public function event()
+    {
         return $this->belongsTo(Event::class, 'event_id');
+    }
+
+    /**
+     * Get the primary key for the model.
+     *
+     * @return array|string|null
+     */
+    protected function getKeyForSaveQuery()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Get the primary key value for the model.
+     *
+     * @return array
+     */
+    public function getKey()
+    {
+        return ['user_id' => $this->user_id, 'event_id' => $this->event_id];
     }
 }
