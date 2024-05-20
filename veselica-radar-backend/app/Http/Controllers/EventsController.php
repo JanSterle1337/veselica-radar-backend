@@ -31,6 +31,14 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
+
+        $request->merge([
+            'starting_hour' => \Carbon\Carbon::parse($request->input('starting_hour'))->format('H:i'),
+            'ending_hour' => \Carbon\Carbon::parse($request->input('ending_hour'))->format('H:i'),
+        ]);
+
+        Log::info($request->all());
+
         $rules = [
             'name' => 'required|string',
             'location' => 'required|string',

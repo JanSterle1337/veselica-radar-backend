@@ -19,6 +19,8 @@ class Event extends Model
         'ending_hour',
         'user_id',
         'is_confirmed',
+        'latitude',
+        'longitude'
     ];
 
     protected $casts = [
@@ -27,7 +29,9 @@ class Event extends Model
         'entrance_fee' => 'float',
         'event_date' => 'date',
         'starting_hour' => 'datetime:H:i', // Cast to time format without seconds
-        'ending_hour' => 'datetime:H:i',   // Cast to time format without seconds
+        'ending_hour' => 'datetime:H:i',
+        'latitude' => 'float',
+        'longitude' => 'float'
     ];
 
     public function user()

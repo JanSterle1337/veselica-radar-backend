@@ -36,6 +36,9 @@ class EventFactory extends Factory
         $startingHour = fake()->time('H:i');
         $endingHour = fake()->time('H:i');
 
+        $latitude = fake()->latitude(45.674424, 46.3694);
+        $longitude = fake()->longitude(13.9167, 15.56735);
+
         return [
             'name' => $location . " veselica",
             'location' => $location,
@@ -45,6 +48,8 @@ class EventFactory extends Factory
             'starting_hour' => $startingHour,
             'ending_hour' => $endingHour,
             'user_id' => $userId,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
         ];
     }
 
