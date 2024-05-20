@@ -72,4 +72,15 @@ class AuthController extends Controller
             'role' => $user->role // include user role in response
         ]);
     }
+
+    public function consoleLogin($email, $password)
+    {
+        $user = User::where('email', $email)->first();
+
+        if (!$user || !Hash::check($password, $user->password)) {
+            return null;
+        }
+
+        return $user;
+    }
 }
